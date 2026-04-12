@@ -1,0 +1,23 @@
+# Ambiente virtual
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Histórico gerado em runtime
+ExtractorPro/historico.json
+
+# Build / distribuição
+dist/
+build/
+*.spec
+
+# Chromium embutido (binário grande)
+chromium/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
