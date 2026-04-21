@@ -2,15 +2,19 @@
 import sys
 import subprocess
 
+_NO_WINDOW = subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0
+
 _DEPENDENCIAS = [
     ("customtkinter", "customtkinter"),
     ("playwright",    "playwright"),
 ]
 
 def _instalar(pacote):
-    print(f"[ExtractorPro] Instalando {pacote}...")
-    subprocess.check_call([sys.executable, "-m", "pip", "install", pacote],
-                          stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.check_call(
+        [sys.executable, "-m", "pip", "install", pacote],
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        creationflags=_NO_WINDOW,
+    )
 
 for _modulo, _pacote in _DEPENDENCIAS:
     try:
@@ -23,8 +27,11 @@ import pathlib
 _ms_pw = pathlib.Path.home() / "AppData" / "Local" / "ms-playwright"
 _chromium_ok = any(_ms_pw.glob("chromium-*/chrome-win/chrome.exe")) if _ms_pw.exists() else False
 if not _chromium_ok:
-    print("[ExtractorPro] Instalando Chromium do Playwright...")
-    subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"])
+    subprocess.run(
+        [sys.executable, "-m", "playwright", "install", "chromium"],
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        creationflags=_NO_WINDOW,
+    )
 del _ms_pw, _chromium_ok
 # ─────────────────────────────────────────────────────────────────────────────
 
